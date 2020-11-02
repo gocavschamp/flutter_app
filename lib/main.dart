@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter_app/navigator/tab_navigator.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: TabNavigator(),
     );
   }
 }
@@ -49,7 +51,6 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    final wordPair = new WordPair.random();
-
     // TODO: implement build
     return new MaterialApp(
       title: "first flutter view",
@@ -80,7 +81,7 @@ class RandomWordsState extends State<RandomWords> {
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
           new IconButton(
-              icon: new Icon(Icons.account_circle), onPressed: _toastMessage)
+              icon: new Icon(Icons.account_circle), onPressed: _toastMessage1)
         ],
       ),
       body: _buildTextList(),
@@ -110,18 +111,24 @@ class RandomWordsState extends State<RandomWords> {
     }));
   }
 
-  void _toastMessage() {
+  void _toastMessage(String msg) {
+    print("toa--"+msg);
+  }
+  void _toastMessage1() {
+    print("toa--");
   }
 
   Widget _buildTextList() {
+    _suggestions.addAll(generateWordPairs().take(10));
     return new ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
+          _toastMessage(i.toString());
           if (i.isOdd) return new Divider(); //如果是奇数
           final index = i ~/ 2;
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
+//          _toastMessage(index.toString());
+//          if (index >= _suggestions.length) {
+//          }
           return _buildRow(_suggestions[index]);
         });
   }
