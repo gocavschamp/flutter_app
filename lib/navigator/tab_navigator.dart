@@ -24,6 +24,7 @@ class _TabNavigatorState extends State<TabNavigator> {
       body: PageView(
         controller: _controller,
         children: [HomePage(), SearchPage(), TravelPage(), MyPage()],
+        physics: NeverScrollableScrollPhysics(),//关闭手势滑动页面
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
