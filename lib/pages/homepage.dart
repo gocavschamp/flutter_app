@@ -108,11 +108,14 @@ class _HomePageState extends State<HomePage> {
                     height: 80,
                     decoration: BoxDecoration(color: Colors.white),
                     child: Center(
+                      heightFactor:80 ,
 
                       child: Padding(
                         padding: EdgeInsets.all(10),
                         child: Row(
-                          crossAxisAlignment:CrossAxisAlignment.center ,
+                          verticalDirection: VerticalDirection.up,
+                          mainAxisAlignment:MainAxisAlignment.center,
+                          crossAxisAlignment:CrossAxisAlignment.center,
                           children: [
                             Text('首页'),
                             Text('搜索'),
