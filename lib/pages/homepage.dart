@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/api.dart';
+import 'package:flutter_app/api/travel_home_bean.dart';
 import 'package:flutter_app/wedgit/PhotoHero.dart';
+import 'package:flutter_app/wedgit/local_nav.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +20,16 @@ class _HomePageState extends State<HomePage> {
   ];
 
   var _appbarAlphe = 0.0;
+  List<MainItem> _localNavList;
+
+  String homeInfo = '首页';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +55,9 @@ class _HomePageState extends State<HomePage> {
                       child: Swiper(
                         itemCount: urls.length,
                         autoplay: true,
-                        pagination: SwiperPagination(builder: DotSwiperPaginationBuilder(color: Colors.red ,activeColor: Colors.green )),
+                        pagination: SwiperPagination(
+                            builder: DotSwiperPaginationBuilder(
+                                color: Colors.red, activeColor: Colors.green)),
                         itemBuilder: (context, index) {
                           return PhotoHero(
                               photo: urls[index],
@@ -93,10 +108,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Container(
-                      color: Colors.grey,
-                      height: 800,
-                      child: ListTile(
-                        title: Text('首页'),
+                      color: Colors.white,
+                      child:
+                      Padding(
+                       child: LocalNav(context,_localNavList),
+                        padding: EdgeInsets.fromLTRB(7, 10, 7, 4),
+
                       ),
                     )
                   ],
@@ -108,16 +125,15 @@ class _HomePageState extends State<HomePage> {
                     height: 80,
                     decoration: BoxDecoration(color: Colors.white),
                     child: Center(
-                      heightFactor:80 ,
-
+                      heightFactor: 80,
                       child: Padding(
                         padding: EdgeInsets.all(10),
                         child: Row(
                           verticalDirection: VerticalDirection.up,
-                          mainAxisAlignment:MainAxisAlignment.center,
-                          crossAxisAlignment:CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('首页'),
+                            Text(homeInfo),
                             Text('搜索'),
                             Icon(Icons.search)
                           ],
@@ -141,5 +157,13 @@ class _HomePageState extends State<HomePage> {
       });
     }
     print('flutter' + scrollListener.metrics.pixels.toString());
+  }
+
+  void loadData() async {
+    TravelHomeBean data = await Apis.getHomeDada();
+    setState(() {
+      homeInfo = data.toJson().toString();
+      _localNavList = data.localNavList;
+    });
   }
 }
