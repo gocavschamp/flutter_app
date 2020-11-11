@@ -98,7 +98,7 @@ class _WebViewState extends State<WebView> {
   }
 
   _appBar(Color backgroundColor, Color backButtonColor) {
-    if(widget.hideAppBar)
+    if(widget.hideAppBar??false)
       return new PreferredSize(
         child: SizedBox(
           height: 30,

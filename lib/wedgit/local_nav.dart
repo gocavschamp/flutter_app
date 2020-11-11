@@ -28,11 +28,14 @@ class LocalNav extends StatelessWidget {
 
   _creat(BuildContext context) {
     List<Widget> items = [];
-    if (_localNavList.length == 0) return null;
-    _localNavList.forEach((element) {
-      items.add(_item(context, element));
-    });
-    return items;
+    if (_localNavList != null) {
+      _localNavList.forEach((element) {
+        items.add(_item(context, element));
+      });
+      return items;
+    } else {
+      return items;
+    }
   }
 
   Widget _item(BuildContext context, MainItem element) {

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/travel_home_bean.dart';
 import 'package:flutter_app/wedgit/PhotoHero.dart';
+import 'package:flutter_app/wedgit/grid_nav.dart';
 import 'package:flutter_app/wedgit/local_nav.dart';
+import 'package:flutter_app/wedgit/sub_nav.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,13 +24,20 @@ class _HomePageState extends State<HomePage> {
   var _appbarAlphe = 0.0;
   List<MainItem> _localNavList;
 
-  String homeInfo = '首页';
+  String homeInfo = '';
+
+  GridNavBean _gridNavList;
+
+  List<MainItem> _subNavList;
+
+  List<BannerList> _bannerList;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData();
+    if (homeInfo.isEmpty)
+      loadData();
   }
 
   @override
@@ -53,14 +62,14 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.grey,
                       height: 200,
                       child: Swiper(
-                        itemCount: urls.length,
+                        itemCount: _bannerList?.length??0,
                         autoplay: true,
                         pagination: SwiperPagination(
                             builder: DotSwiperPaginationBuilder(
                                 color: Colors.red, activeColor: Colors.green)),
                         itemBuilder: (context, index) {
                           return PhotoHero(
-                              photo: urls[index],
+                              photo: _bannerList[index].icon,
                               onTap: () {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
@@ -71,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                                         color: Colors.white,
                                         alignment: Alignment.center,
                                         child: PhotoHero(
-                                            photo: urls[index],
+                                            photo: _bannerList[index].icon,
                                             width: 100,
                                             onTap: () {
                                               Navigator.of(context).pop();
@@ -109,13 +118,16 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Container(
                       color: Colors.white,
-                      child:
-                      Padding(
-                       child: LocalNav(context,_localNavList),
+                      child: Padding(
+                        child: LocalNav(context, _localNavList),
                         padding: EdgeInsets.fromLTRB(7, 10, 7, 4),
-
                       ),
-                    )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                      child: GridNav(_gridNavList),
+                    ),
+                    SubNav(context, _subNavList),
                   ],
                 ),
               ),
@@ -164,6 +176,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       homeInfo = data.toJson().toString();
       _localNavList = data.localNavList;
+      _gridNavList = data.gridNav;
+      _subNavList = data.subNavList;
+      _bannerList = data.bannerList;
     });
   }
 }

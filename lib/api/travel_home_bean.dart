@@ -9,14 +9,14 @@ class TravelHomeBean {
   Config _config;
   List<BannerList> _bannerList;
   List<MainItem> _localNavList;
-  GridNav _gridNav;
+  GridNavBean _gridNav;
   List<MainItem> _subNavList;
   SalesBox _salesBox;
 
   Config get config => _config;
   List<BannerList> get bannerList => _bannerList;
   List<MainItem> get localNavList => _localNavList;
-  GridNav get gridNav => _gridNav;
+  GridNavBean get gridNav => _gridNav;
   List<MainItem> get subNavList => _subNavList;
   SalesBox get salesBox => _salesBox;
 
@@ -24,7 +24,7 @@ class TravelHomeBean {
       Config config, 
       List<BannerList> bannerList, 
       List<MainItem> localNavList,
-      GridNav gridNav, 
+      GridNavBean gridNav,
       List<MainItem> subNavList,
       SalesBox salesBox}){
     _config = config;
@@ -49,7 +49,7 @@ class TravelHomeBean {
         _localNavList.add(MainItem.fromJson(v));
       });
     }
-    _gridNav = json["gridNav"] != null ? GridNav.fromJson(json["gridNav"]) : null;
+    _gridNav = json["gridNav"] != null ? GridNavBean.fromJson(json["gridNav"]) : null;
     if (json["subNavList"] != null) {
       _subNavList = [];
       json["subNavList"].forEach((v) {
@@ -175,7 +175,7 @@ class SalesBox {
 /// flight : {"startColor":"4b8fed","endColor":"53bced","mainItem":{"title":"机票","icon":"https://pic.c-ctrip.com/platform/h5/home/grid-nav-items-flight.png","url":"https://m.ctrip.com/html5/flight/swift/index"},"item1":{"title":"火车票","url":"https://m.ctrip.com/webapp/train/?secondwakeup=true&dpclickjump=true&from=https%3A%2F%2Fm.ctrip.com%2Fhtml5%2F#/index?VNK=4e431539","hideAppBar":true},"item2":{"title":"特价机票","url":"https://m.ctrip.com/html5/flight/swift/index"},"item3":{"title":"汽车票·船票","url":"https://m.ctrip.com/html5/Trains/bus/","hideAppBar":true},"item4":{"title":"专车·租车","url":"https://m.ctrip.com/webapp/car/index?s=ctrip&from=https%3A%2F%2Fm.ctrip.com%2Fhtml5%2F","hideAppBar":true}}
 /// travel : {"startColor":"34c2aa","endColor":"6cd557","mainItem":{"title":"旅游","icon":"https://pic.c-ctrip.com/platform/h5/home/grid-nav-items-travel.png","url":"https://m.ctrip.com/webapp/vacations/tour/vacations","hideAppBar":true,"statusBarColor":"19A0F0"},"item1":{"title":"门票","url":"https://m.ctrip.com/webapp/ticket/ticket","statusBarColor":"19A0F0","hideAppBar":true},"item2":{"title":"目的地攻略","url":"https://m.ctrip.com/html5/you/","statusBarColor":"19A0F0","hideAppBar":true},"item3":{"title":"邮轮旅行","url":"https://m.ctrip.com/webapp/cruise/index","hideAppBar":true},"item4":{"title":"定制旅行","url":"https://m.ctrip.com/webapp/dingzhi","hideAppBar":true}}
 
-class GridNav {
+class GridNavBean {
   Hotel _hotel;
   Hotel _flight;
   Hotel _travel;
@@ -184,7 +184,7 @@ class GridNav {
   Hotel get flight => _flight;
   Hotel get travel => _travel;
 
-  GridNav({
+  GridNavBean({
       Hotel hotel,
     Hotel flight,
     Hotel travel}){
@@ -193,7 +193,7 @@ class GridNav {
     _travel = travel;
 }
 
-  GridNav.fromJson(dynamic json) {
+  GridNavBean.fromJson(dynamic json) {
     _hotel = json["hotel"] != null ? Hotel.fromJson(json["hotel"]) : null;
     _flight = json["flight"] != null ? Hotel.fromJson(json["flight"]) : null;
     _travel = json["travel"] != null ? Hotel.fromJson(json["travel"]) : null;
