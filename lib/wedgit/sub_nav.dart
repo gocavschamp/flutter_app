@@ -24,6 +24,7 @@ class SubNav extends StatelessWidget {
 //      crossAxisSpacing: 10.0,
       //垂直子Widget之间间距
 //      mainAxisSpacing: 10.0,
+      physics:  NeverScrollableScrollPhysics(),
       //GridView内边距
       scrollDirection: Axis.vertical,
       padding: EdgeInsets.all(8.0),
