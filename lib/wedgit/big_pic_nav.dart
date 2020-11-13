@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/travel_home_bean.dart';
@@ -53,53 +54,49 @@ class BigPicNav extends StatelessWidget {
           context, _salesBox.smallCard3, _salesBox.smallCard4, false, true));
       return Container(
         color: Colors.white,
-        child: Column(
-          children: [
+        child: Column(children: [
           Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
-                      return WebView(_salesBox.moreUrl, '', '福利', false, false);
-                    }));
-              },
-              child: Container(
-                  height: 30,
-                  padding: EdgeInsets.only(left: 5),
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Image.network(
-                    _salesBox?.icon ?? '',
-                    height: 20,
-                    width: 80,
-                    fit: BoxFit.fill,
-                  )),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
-                      return WebView(
-                          _salesBox.moreUrl, null, '福利', false, false);
-                    }));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.purple,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                height: 25,
-                padding: EdgeInsets.all(5),
-                alignment: AlignmentDirectional.center,
-                child: Text(
-                  '查看更多福利 >',
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WebView(_salesBox.moreUrl, '', '福利', false, false);
+                  }));
+                },
+                child: Container(
+                    height: 30,
+                    padding: EdgeInsets.only(left: 5),
+                    alignment: AlignmentDirectional.centerStart,
+                    child: CachedNetworkImage(
+                      imageUrl: _salesBox?.icon ?? '',
+                      height: 20,
+                      width: 80,
+                      fit: BoxFit.fill,
+                    )),
               ),
-            )
-          ],
-        ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WebView(_salesBox.moreUrl, null, '福利', false, false);
+                  }));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  height: 25,
+                  padding: EdgeInsets.all(5),
+                  alignment: AlignmentDirectional.center,
+                  child: Text(
+                    '查看更多福利 >',
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                ),
+              )
+            ],
+          ),
 //            _creatIem(context, list1),
 //            _creatIem(context, list2),
           Row(
@@ -148,10 +145,7 @@ class BigPicNav extends StatelessWidget {
                 child: Image.network(
                   data[index].icon,
                   fit: BoxFit.fill,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 2 - 5,
+                  width: MediaQuery.of(context).size.width / 2 - 5,
                 ),
               ),
             ));
@@ -170,29 +164,30 @@ class BigPicNav extends StatelessWidget {
     );
   }
 
-  Widget _item(BuildContext context, MainItem model, bool big, bool left,
-      bool last) {
+  Widget _item(
+      BuildContext context, MainItem model, bool big, bool left, bool last) {
     BorderSide borderSide = BorderSide(width: 0.8, color: Color(0xfff2f2f2));
     return GestureDetector(
         onTap: () {
           NavigatorUtil.push(
               context,
               WebView(
-                model.url, model.statusBarColor, model.title, model.hideAppBar,
-                false,));
+                model.url,
+                model.statusBarColor,
+                model.title,
+                model.hideAppBar,
+                false,
+              ));
         },
         child: Container(
           decoration: BoxDecoration(
               border: Border(
                   right: left ? borderSide : BorderSide.none,
                   bottom: last ? BorderSide.none : borderSide)),
-          child: Image.network(
-            model.icon,
+          child: CachedNetworkImage(
+            imageUrl: model.icon,
             fit: BoxFit.fill,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width / 2 - 10,
+            width: MediaQuery.of(context).size.width / 2 - 10,
             height: big ? 129 : 80,
           ),
         ));

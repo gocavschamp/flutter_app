@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/travel_home_bean.dart';
@@ -68,12 +69,13 @@ class GridNav extends StatelessWidget {
         context,
         Stack(
           children: [
-            Image.network(
+            CachedNetworkImage(
+              imageUrl:
               item.icon,
               height: 88,
               width: 121,
               fit: BoxFit.contain,
-              alignment: AlignmentDirectional.bottomEnd,
+              alignment: Alignment.bottomCenter,
             ),
             Container(
               margin: EdgeInsets.only(top: 10),

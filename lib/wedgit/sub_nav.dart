@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,7 +67,8 @@ class SubNav extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  Image.network(
+                  CachedNetworkImage(
+                    imageUrl:
                     element.icon,
                     height: 18,
                     width: 18,

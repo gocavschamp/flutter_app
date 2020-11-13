@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/wedgit/search_bar.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -17,22 +18,13 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        child: ListView(
-//          scrollDirection:Axis.horizontal ,
-          children: urls.map((e) => CachedNetworkImage(imageUrl: e)).toList(),
-        ),
-//        child: ListView.builder(
-//          itemCount: urls.length,
-//          scrollDirection:Axis.horizontal ,
-//          itemBuilder: (context, index) {
-//            return Center(
-//
-//                child:CachedNetworkImage(
-//
-//                    imageUrl: urls[index]));
-//          },
+      body:Column(
+        children: [
+         Container(
+           padding: EdgeInsets.only(top: 30),
+           height: 80,
+           child:  SearchBar(showBack: false,),)
+        ],
       ),
     );
   }

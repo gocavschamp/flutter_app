@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,8 @@ class PhotoHero extends StatelessWidget {
           color: Colors.transparent,
           child: new InkWell(
             onTap: onTap,
-            child: new Image.network(
+            child:  CachedNetworkImage(
+              imageUrl:
               photo,
               fit: BoxFit.fill,
             ),

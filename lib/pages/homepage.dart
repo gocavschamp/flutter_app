@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   SalesBox _salesBox;
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -122,60 +123,7 @@ class _HomePageState extends State<HomePage> {
         Container(
           color: Colors.grey,
           height: 200,
-          child: Swiper(
-            itemCount: _bannerList?.length ?? 0,
-            autoplay: true,
-            pagination: SwiperPagination(
-                builder: DotSwiperPaginationBuilder(
-                    color: Colors.red, activeColor: Colors.green)),
-            itemBuilder: (context, index) {
-              return PhotoHero(
-                  photo: _bannerList[index].icon,
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return ListView(
-                        children: [
-                          Container(
-                            height: 300,
-                            color: Colors.white,
-                            alignment: Alignment.center,
-                            child: PhotoHero(
-                                photo: _bannerList[index].icon,
-                                width: 100,
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                }),
-                          ),
-                          Container(
-                              color: Colors.white,
-                              alignment: Alignment.center,
-                              height: 300,
-                              child: Text(
-                                '钢之炼金术师FA',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 18,
-                                    backgroundColor: Colors.white),
-                              )),
-                          Container(
-                              color: Colors.white,
-                              alignment: Alignment.center,
-                              height: 400,
-                              child: Text(
-                                '钢之炼金术师FA',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 18,
-                                    backgroundColor: Colors.white),
-                              )),
-                        ],
-                      );
-                    }));
-                  },
-                  width: 300.0);
-            },
-          ),
+          child: _banner,
         ),
         Container(
           color: Colors.white,
@@ -195,6 +143,62 @@ class _HomePageState extends State<HomePage> {
           child: BigPicNav(_salesBox),
         ),
       ],
+    );
+  }
+  Widget get _banner {
+    return Swiper(
+      itemCount: _bannerList?.length ?? 0,
+      autoplay: true,
+      pagination: SwiperPagination(
+          builder: DotSwiperPaginationBuilder(
+              color: Colors.red, activeColor: Colors.green)),
+      itemBuilder: (context, index) {
+        return PhotoHero(
+            photo: _bannerList[index].icon,
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) {
+                return ListView(
+                  children: [
+                    Container(
+                      height: 300,
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      child: PhotoHero(
+                          photo: _bannerList[index].icon,
+                          width: 100,
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          }),
+                    ),
+                    Container(
+                        color: Colors.white,
+                        alignment: Alignment.center,
+                        height: 300,
+                        child: Text(
+                          '钢之炼金术师FA',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              backgroundColor: Colors.white),
+                        )),
+                    Container(
+                        color: Colors.white,
+                        alignment: Alignment.center,
+                        height: 400,
+                        child: Text(
+                          '钢之炼金术师FA',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              backgroundColor: Colors.white),
+                        )),
+                  ],
+                );
+              }));
+            },
+            width: 300.0);
+      },
     );
   }
 
