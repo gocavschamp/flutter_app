@@ -29,7 +29,9 @@ class Apis {
     if (response.statusCode == 200) {
       Utf8Codec utf8codec = Utf8Codec();
       var result = json.decode(utf8codec.decode(response.bodyBytes));
-      return SearchResult.fromJson(result);
+      SearchResult data = SearchResult.fromJson(result);
+      data.keyword = keyword;
+      return data;
     } else {
       throw Exception('http failed');
     }

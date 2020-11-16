@@ -2,6 +2,7 @@
 
 class SearchResult {
   List<Data> _data;
+  String keyword;
 
   List<Data> get data => _data;
 
@@ -47,7 +48,7 @@ class Data {
 
   Data({
       String word, 
-      String type, 
+      String type,
       String districtname, 
       String url}){
     _word = word;

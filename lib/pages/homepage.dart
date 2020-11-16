@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/travel_home_bean.dart';
+import 'package:flutter_app/pages/searchpage.dart';
+import 'package:flutter_app/utils/navigator_util.dart';
 import 'package:flutter_app/wedgit/PhotoHero.dart';
 import 'package:flutter_app/wedgit/big_pic_nav.dart';
 import 'package:flutter_app/wedgit/grid_nav.dart';
 import 'package:flutter_app/wedgit/local_nav.dart';
+import 'package:flutter_app/wedgit/search_bar.dart';
 import 'package:flutter_app/wedgit/sub_nav.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -22,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     'https://bkimg.cdn.bcebos.com/pic/023b5bb5c9ea15ceeb4bafbdb7003af33b87b2d9?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1'
   ];
 
-  var _appbarAlphe = 0.0;
+  var _appbarAlphe = 0.6;
   List<MainItem> _localNavList;
 
   String homeInfo = '';
@@ -34,7 +37,6 @@ class _HomePageState extends State<HomePage> {
   List<BannerList> _bannerList;
 
   SalesBox _salesBox;
-
 
   @override
   void initState() {
@@ -66,25 +68,23 @@ class _HomePageState extends State<HomePage> {
               Opacity(
                 opacity: _appbarAlphe,
                 child: Container(
+                  height: 80,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Container(
+                    padding: EdgeInsets.only(top: 30),
                     height: 80,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Center(
-                      heightFactor: 80,
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Text(
-                              '',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            Text('搜索'),
-                            Icon(Icons.search)
-                          ],
-                        ),
-                      ),
-                    )),
+                    child: SearchBar(
+                      showBack: false,
+                      defaultText: '',
+                      type: SearchType.home,
+                      hint: '输入您想搜索的内容',
+                      inputBoxClick: () {
+                        NavigatorUtil.push(
+                            context, SearchPage(type: SearchType.normal));
+                      },
+                    ),
+                  ),
+                ),
               )
             ],
           )),
@@ -99,9 +99,12 @@ class _HomePageState extends State<HomePage> {
     } else {
       setState(() {
         _appbarAlphe = scrollListener.metrics.pixels / 80;
+        if (_appbarAlphe < 0.2) {
+          _appbarAlphe = 0.6;
+        }
       });
     }
-    print('flutter' + scrollListener.metrics.pixels.toString());
+    print('flutter' +_appbarAlphe.toString());
   }
 
   Future<void> _onRefresh() async {
@@ -145,6 +148,7 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+
   Widget get _banner {
     return Swiper(
       itemCount: _bannerList?.length ?? 0,
@@ -156,8 +160,7 @@ class _HomePageState extends State<HomePage> {
         return PhotoHero(
             photo: _bannerList[index].icon,
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                 return ListView(
                   children: [
                     Container(
@@ -201,5 +204,4 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
 }
