@@ -8,21 +8,15 @@ import 'package:flutter_app/wedgit/webview.dart';
 
 class SearchPage extends StatefulWidget {
   SearchType type;
+  String defaultSearch;
 
-  SearchPage({this.type = SearchType.normal});
+  SearchPage({this.type = SearchType.normal, this.defaultSearch});
 
   @override
   State<StatefulWidget> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  var urls = [
-    'https://bkimg.cdn.bcebos.com/pic/574e9258d109b3decbdc9fdccdbf6c81800a4c26?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1',
-    'https://bkimg.cdn.bcebos.com/pic/562c11dfa9ec8a13b93f2d54f603918fa0ecc059?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1',
-    'https://bkimg.cdn.bcebos.com/pic/8ad4b31c8701a18b439a68fb9f2f07082838fe15?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1',
-    'https://bkimg.cdn.bcebos.com/pic/023b5bb5c9ea15ceeb4bafbdb7003af33b87b2d9?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1'
-  ];
-
   List<Data> _list;
 
   SearchResult _data;
@@ -42,7 +36,8 @@ class _SearchPageState extends State<SearchPage> {
         //搜索关键字高亮忽略大小写
         preIndex = wordL.indexOf(keywordL, preIndex);
         spans.add(TextSpan(
-            text: word.substring(preIndex,preIndex+ keywordL.length), style: keywordStyle));
+            text: word.substring(preIndex, preIndex + keywordL.length),
+            style: keywordStyle));
       }
       String val = arr[i];
       if (val != null && val.length > 0) {
@@ -50,6 +45,15 @@ class _SearchPageState extends State<SearchPage> {
       }
     }
     return spans;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.defaultSearch != null && widget.defaultSearch.length > 0) {
+      _search(widget.defaultSearch);
+    }
   }
 
   @override
@@ -65,6 +69,7 @@ class _SearchPageState extends State<SearchPage> {
               defaultText: '',
               type: widget.type,
               onchange: _onTextChange,
+              speakClick: () {},
             ),
           ),
           MediaQuery.removePadding(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/speakpage.dart';
+import 'package:flutter_app/utils/navigator_util.dart';
 
 enum SearchType { home, normal, homeLight }
 
@@ -40,7 +42,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
+      height: 40,
       padding: EdgeInsets.only(left: 10),
       child: Row(
         children: [
@@ -51,20 +53,20 @@ class _SearchBarState extends State<SearchBar> {
           ),
           Expanded(
               child: Container(
-                  height: 80,
-                  margin: EdgeInsets.all(8),
+                  height: 40,
+                  margin: EdgeInsets.only(left: 8, right: 8),
                   decoration: BoxDecoration(
                     color: Color(0x22000000),
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
                   child: Container(
-                    alignment: AlignmentDirectional.center,
+                    alignment: AlignmentDirectional.topStart,
                     height: 30,
-                    padding: EdgeInsets.fromLTRB(0, 5, 10, 5),
+                    padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                     child: GestureDetector(
                       onTap: widget.inputBoxClick,
                       child: Row(
-                        mainAxisSize: MainAxisSize.max,
+//                        mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
                             child: Icon(
@@ -82,18 +84,21 @@ class _SearchBarState extends State<SearchBar> {
                                 decoration: InputDecoration(
                                   hintText: widget.hint,
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(top: -20),
-
                                 ),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.grey,
                                 ),
                               )),
-                          Container(
-                            child: widget.type == SearchType.normal
-                                ? Text('搜素')
-                                : null,
+                          GestureDetector(
+                            onTap: () {
+                              NavigatorUtil.push(context, SpeakPage());
+                            },
+                            child: Container(
+                              child: widget.type == SearchType.normal
+                                  ? Text('语音')
+                                  : null,
+                            ),
                           )
                         ],
                       ),

@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.Map;
 
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
@@ -22,14 +23,14 @@ public class AsrPlugin implements MethodChannel.MethodCallHandler {
     private ResultStateful resultStateful;
     private AsrManager asrManager;
 
-    public static void registerWith(PluginRegistry.Registrar registrar) {
-        MethodChannel channel = new MethodChannel(registrar.messenger(), "asr_plugin");
-        AsrPlugin instance = new AsrPlugin(registrar);
+    public static void registerWith(Activity activity,BinaryMessenger registrar) {
+        MethodChannel channel = new MethodChannel(registrar, "asr_plugin");
+        AsrPlugin instance = new AsrPlugin(activity);
         channel.setMethodCallHandler(instance);
     }
 
-    public AsrPlugin(PluginRegistry.Registrar registrar) {
-        this.activity = registrar.activity();
+    public AsrPlugin(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -58,7 +59,8 @@ public class AsrPlugin implements MethodChannel.MethodCallHandler {
             return;
         }
         if (getAsrManager() != null) {
-            getAsrManager().start(call.arguments instanceof Map ? (Map) call.arguments : null);
+//            getAsrManager().start(call.arguments instanceof Map ? (Map) call.arguments : null);
+            getAsrManager().start();
         } else {
             Log.e(TAG, "Ignored start, current getAsrManager is null.");
             result.error("Ignored start, current getAsrManager is null.", null, null);

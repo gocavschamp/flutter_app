@@ -43,13 +43,13 @@ public class AsrManager {
     }
 
     /**
-     * @param params
+     * @param
      */
-    public void start(Map<String, Object> params) {
+    public void start() {
         // SDK集成步骤 拼接识别参数
-        String json = new JSONObject(params).toString();
-        Log.i(TAG + ".Debug", "识别参数（反馈请带上此行日志）" + json);
-        asr.send(SpeechConstant.ASR_START, json, null, 0, 0);
+//        String json = new JSONObject(params).toString();
+//        Log.i(TAG + ".Debug", "识别参数（反馈请带上此行日志）" + json);
+        asr.send(SpeechConstant.ASR_START, "", null, 0, 0);
     }
 
 
