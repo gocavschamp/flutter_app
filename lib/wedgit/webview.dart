@@ -12,9 +12,28 @@ class WebView extends StatefulWidget {
   final bool hideAppBar;
   final bool backForbid;
 
-  WebView(this.url, this.statusBarColor, this.title, this.hideAppBar,
-      this.backForbid);
-
+//  WebView(
+//      {this.url,
+//      this.statusBarColor = 'FBBDEFB',
+//      this.title = '',
+//      this.hideAppBar = false,
+//      this.backForbid = false}) {
+//    if (url != null && url.contains('ctrip.com')) {
+//      //fix 携程H5 http://无法打开问题
+//      url = url.replaceAll("http://", 'https://');
+//    }
+//  }
+  WebView(
+      {this.url,
+        this.statusBarColor,
+        this.title,
+        this.hideAppBar,
+        this.backForbid = false}) {
+    if (url != null && url.contains('ctrip.com')) {
+      //fix 携程H5 http://无法打开问题
+      url = url.replaceAll("http://", 'https://');
+    }
+  }
   @override
   State<StatefulWidget> createState() => _WebViewState();
 }
@@ -98,51 +117,53 @@ class _WebViewState extends State<WebView> {
   }
 
   _appBar(Color backgroundColor, Color backButtonColor) {
-    if(widget.hideAppBar??false)
+    if (widget.hideAppBar ?? false)
       return new PreferredSize(
         child: SizedBox(
           height: 30,
-          child:  Container(color: backgroundColor,),
+          child: Container(
+            color: backgroundColor,
+          ),
         ),
         preferredSize: Size.fromHeight(1),
       );
-      else
-    return AppBar(
-      elevation: 0.4,
-      title: new Text(
-        widget.title,
-        style: TextStyle(color: backButtonColor, fontSize: 20),
-      ),
-      bottom: new PreferredSize(
-        child: SizedBox(
-          height: 2,
-          child: isLoad ? new LinearProgressIndicator() : Container(),
+    else
+      return AppBar(
+        elevation: 0.4,
+        title: new Text(
+          widget.title,
+          style: TextStyle(color: backButtonColor, fontSize: 20),
         ),
-        preferredSize: Size.fromHeight(2),
-      ),
-      actions: <Widget>[
-        IconButton(
-          // tooltip: '用浏览器打开',
-          icon: Icon(
-            Icons.close,
-            size: 20.0,
-            color: backButtonColor,
+        bottom: new PreferredSize(
+          child: SizedBox(
+            height: 2,
+            child: isLoad ? new LinearProgressIndicator() : Container(),
           ),
-          onPressed: () {
-            Navigator.pop(context);
+          preferredSize: Size.fromHeight(2),
+        ),
+        actions: <Widget>[
+          IconButton(
+            // tooltip: '用浏览器打开',
+            icon: Icon(
+              Icons.close,
+              size: 20.0,
+              color: backButtonColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
 //            RouteUtil.launchInBrowser(widget.url, title: widget.title);
-          },
-        ),
-        IconButton(
-          // tooltip: '分享',
-          icon: Icon(
-            Icons.share,
-            size: 20.0,
-            color: backButtonColor,
+            },
           ),
-          onPressed: () {},
-        ),
-      ],
-    );
+          IconButton(
+            // tooltip: '分享',
+            icon: Icon(
+              Icons.share,
+              size: 20.0,
+              color: backButtonColor,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      );
   }
 }

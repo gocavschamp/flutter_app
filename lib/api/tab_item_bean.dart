@@ -678,30 +678,30 @@ class Images {
   int _imageId;
   String _dynamicUrl;
   String _originalUrl;
-  int _width;
-  int _height;
+  double _width;
+  double _height;
   int _mediaType;
-  int _lat;
-  int _lon;
+  double _lat;
+  double _lon;
 
   int get imageId => _imageId;
   String get dynamicUrl => _dynamicUrl;
   String get originalUrl => _originalUrl;
-  int get width => _width;
-  int get height => _height;
+  double get width => _width;
+  double get height => _height;
   int get mediaType => _mediaType;
-  int get lat => _lat;
-  int get lon => _lon;
+  double get lat => _lat;
+  double get lon => _lon;
 
   Images({
       int imageId,
       String dynamicUrl,
       String originalUrl,
-      int width,
-      int height,
+    double width,
+    double height,
       int mediaType,
-      int lat,
-      int lon}){
+    double lat,
+    double lon}){
     _imageId = imageId;
     _dynamicUrl = dynamicUrl;
     _originalUrl = originalUrl;

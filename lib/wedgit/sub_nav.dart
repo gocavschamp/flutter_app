@@ -25,7 +25,7 @@ class SubNav extends StatelessWidget {
 //      crossAxisSpacing: 10.0,
       //垂直子Widget之间间距
 //      mainAxisSpacing: 10.0,
-      physics:  NeverScrollableScrollPhysics(),
+      physics: NeverScrollableScrollPhysics(),
       //GridView内边距
       scrollDirection: Axis.vertical,
       padding: EdgeInsets.all(8.0),
@@ -57,8 +57,12 @@ class SubNav extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return WebView(element.url, element.statusBarColor, element.title,
-                element.hideAppBar, false);
+            return WebView(
+                url: element.url,
+                statusBarColor: element.statusBarColor,
+                title: element.title,
+                hideAppBar: element.hideAppBar,
+                backForbid: false);
           }));
         },
         child: Container(
@@ -68,8 +72,7 @@ class SubNav extends StatelessWidget {
               child: Column(
                 children: [
                   CachedNetworkImage(
-                    imageUrl:
-                    element.icon,
+                    imageUrl: element.icon,
                     height: 18,
                     width: 18,
                   ),

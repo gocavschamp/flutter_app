@@ -32,7 +32,7 @@ class Apis {
       "sortDirection": 0
     },
     "imageCutType": 1,
-    "head": {'cid': "09031014111431397988"},
+   "head": {"cid": "09031014111431397988"},
     "contentType": "json"
   };
 
@@ -83,18 +83,19 @@ class Apis {
     }
   }
 
-  static Future<TabItemBean> travelItem(
+  static Future<TabItemBean> travelItem(String url,
       Map params, String groupChannelCode, int pageIndex, int pageSize) async {
     Dio dio = new Dio();
     Map paramsMap = params['pagePara'];
     paramsMap['pageIndex'] = pageIndex;
     paramsMap['pageSize'] = pageSize;
-    params['groupChannelCode'] = groupChannelCode;
-    final response = await dio.post(travel_item, queryParameters: params);
+    paramsMap['groupChannelCode'] = groupChannelCode;
+    print(paramsMap.toString());
+    final response = await dio.post(travel_item, data: paramsMap, );
     if (response.statusCode == 200) {
-      Utf8Codec utf8codec = Utf8Codec();
-      var result = json.decode(utf8codec.decode(response.data));
-      TabItemBean data = TabItemBean.fromJson(result);
+//      Utf8Codec utf8codec = Utf8Codec();
+//      var result = json.decode(utf8codec.decode(response.data));
+      TabItemBean data = TabItemBean.fromJson(response.data);
       return data;
     } else {
       throw Exception('http failed');

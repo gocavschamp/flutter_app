@@ -84,8 +84,7 @@ class _SearchPageState extends State<SearchPage> {
                       onTap: () {
                         NavigatorUtil.push(
                             context,
-                            WebView(_list[index].url, '', _list[index].word,
-                                false, true));
+                            WebView(url:_list[index].url, title: _list[index].word));
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 5),
@@ -123,6 +122,7 @@ class _SearchPageState extends State<SearchPage> {
   _search(String word) {
     Apis.search(word).then((value) {
       _data = value;
+      print(value.toJson());
       if (word == value.keyword)
         setState(() {
           _list = value.data;

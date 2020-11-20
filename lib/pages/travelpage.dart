@@ -71,7 +71,7 @@ class _TravelPageState extends State<TravelPage>
         Flexible(
             child: TabBarView(
           children: tabitems.map((e){
-            return TravelTabPage(code: e.groupChannelCode,);
+            return TravelTabPage(url:_data.url,patams:_data.params,code: e.groupChannelCode,);
           }).toList(),
           controller: _controller,
         ))

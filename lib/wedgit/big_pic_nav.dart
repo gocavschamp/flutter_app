@@ -19,8 +19,12 @@ class BigPicNav extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return WebView(element.url, element.statusBarColor, element.title,
-                element.hideAppBar, false);
+            return  WebView(url: element.url,
+                statusBarColor: element.statusBarColor,
+                title: element.title,
+                hideAppBar: element.hideAppBar,
+                backForbid
+                    :false);
           }));
         },
         child: widget);
@@ -61,7 +65,7 @@ class BigPicNav extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return WebView(_salesBox.moreUrl, '', '福利', false, false);
+                    return WebView(url:_salesBox.moreUrl, title: '福利',);
                   }));
                 },
                 child: Container(
@@ -78,7 +82,7 @@ class BigPicNav extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return WebView(_salesBox.moreUrl, null, '福利', false, false);
+                    return WebView(url:_salesBox.moreUrl, title: '福利',);
                   }));
                 },
                 child: Container(
@@ -134,8 +138,8 @@ class BigPicNav extends StatelessWidget {
         return GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return WebView(data[index].url, data[index].statusBarColor,
-                    data[index].title, data[index].hideAppBar, false);
+                return WebView(url:data[index].url, statusBarColor:data[index].statusBarColor,
+                    title:data[index].title, hideAppBar:data[index].hideAppBar, );
               }));
             },
             child: Container(
@@ -172,11 +176,10 @@ class BigPicNav extends StatelessWidget {
           NavigatorUtil.push(
               context,
               WebView(
-                model.url,
-                model.statusBarColor,
-                model.title,
-                model.hideAppBar,
-                false,
+                url:model.url,
+                statusBarColor:model.statusBarColor,
+                title: model.title,
+                hideAppBar:model.hideAppBar,
               ));
         },
         child: Container(

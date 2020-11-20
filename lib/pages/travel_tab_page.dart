@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/tab_item_bean.dart';
+import 'package:flutter_app/utils/navigator_util.dart';
+import 'package:flutter_app/wedgit/webview.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -26,7 +29,8 @@ class TravelTabPageState extends State<TravelTabPage>
 
   @override
   void initState() {
-//    loadData();
+    easyRefreshController = EasyRefreshController();
+    loadData();
     super.initState();
   }
 
@@ -59,32 +63,63 @@ class TravelTabPageState extends State<TravelTabPage>
           },
           child: StaggeredGridView.countBuilder(
             crossAxisCount: 4,
-            itemCount: _datas.length,
-            itemBuilder: (BuildContext context, int index) => new Container(
-                color: Colors.green,
-                child: new Center(
-                  child: new CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: new Text(_datas[index].article?.articleTitle),
+            itemCount: _datas?.length ?? 0,
+            itemBuilder: (BuildContext context, int index) => GestureDetector(
+              onTap: () {
+                NavigatorUtil.push(
+                    context,
+                    WebView(
+                      url: _datas[index].article.urls[0].h5Url,
+                    ));
+              },
+              child: Container(
+                color: Colors.white,
+                child: new Card(
+                  clipBehavior: Clip.antiAlias,
+                  borderOnForeground: true,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  shadowColor: Colors.grey,
+                  child: Column(
+                    children: [
+                      _topImage(index),
+                      Container(
+                        padding: EdgeInsets.all(4),
+                        child: Text(
+                          _datas[index].article.articleTitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 14, color: Colors.black87),
+                        ),
+                      ),
+                      _bottomInfo(index),
+                    ],
                   ),
-                )),
-            staggeredTileBuilder: (int index) =>
-                new StaggeredTile.count(2, index.isEven ? 2 : 1),
-            mainAxisSpacing: 4.0,
-            crossAxisSpacing: 4.0,
+                ),
+              ),
+            ),
+
+            staggeredTileBuilder: (int index) => new StaggeredTile.fit(
+              2,
+            ),
+//            mainAxisSpacing: 4.0,
+//            crossAxisSpacing: 4.0,
           )),
     );
   }
 
   void loadData({loadMore = false}) {
-    Apis.travelItem(Apis.params, widget.code, _pageIndex, _pageSize)
+    loadMore ? _pageIndex++ : _pageIndex = 1;
+    Apis.travelItem(
+            widget.url, widget.patams, widget.code, _pageIndex, _pageSize)
         .then((TabItemBean data) {
       setState(() {
-        _datas = data.resultList;
-        loadMore
-            ? easyRefreshController.finishLoad(success: true, noMore: false)
-            : easyRefreshController.finishRefresh(success: true);
+        !loadMore ? _datas = data.resultList : _datas.addAll(data.resultList);
+//        print(data.toJson().toString());
       });
+      loadMore
+          ? easyRefreshController.finishLoad(success: true, noMore: false)
+          : easyRefreshController.finishRefresh(success: true);
     }).catchError((e) {
       print(e);
       easyRefreshController.finishLoad(success: false, noMore: false);
@@ -93,4 +128,108 @@ class TravelTabPageState extends State<TravelTabPage>
 
   @override
   bool get wantKeepAlive => true;
+
+  String _poiName(int index) {
+    return _datas[index].article.poiName ?? '未知';
+  }
+
+  _topImage(int index) {
+    return Stack(
+      children: [
+        CachedNetworkImage(
+          imageUrl: _datas[index].article.images[0]?.dynamicUrl,
+          placeholder: (context, url) => Container(
+            height: 160,
+            color: Colors.white60,
+            child: Container(
+              height: 50,
+              width: 50,
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
+            ),
+            width: MediaQuery.of(context).size.width / 2,
+          ),
+        ),
+        Positioned(
+            left: 8,
+            bottom: 8,
+            child: Container(
+              color: Colors.black12,
+              padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 3),
+                    child: Icon(
+                      Icons.location_city,
+                      color: Colors.white,
+                      size: 15,
+                    ),
+                  ),
+                  LimitedBox(
+                    maxWidth: 130,
+                    child: Text(
+                      _poiName(index),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ))
+      ],
+    );
+  }
+
+  _bottomInfo(int index) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(6, 0, 6, 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              PhysicalModel(
+                color: Colors.transparent,
+                clipBehavior: Clip.antiAlias,
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  _datas[index].article.author?.coverImage?.dynamicUrl,
+                  width: 24,
+                  height: 24,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                width: 90,
+                child: Text(
+                  _datas[index].article.author?.nickName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12),
+                ),
+              )
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Icon(
+                Icons.thumb_up,
+                size: 14,
+                color: Colors.grey,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 3),
+                child: Text(
+                  _datas[index].article.likeCount.toString(),
+                  style: TextStyle(fontSize: 10),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }
