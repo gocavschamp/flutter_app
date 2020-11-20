@@ -9,10 +9,10 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 import org.devio.flutter.plugin.asr.AsrPlugin
 
 class MainActivity : FlutterActivity() {
-//  override fun onCreate(savedInstanceState: Bundle?) {
-//    super.onCreate(savedInstanceState)
-////    GeneratedPluginRegistrant.registerWith(this)
-//  }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+//    GeneratedPluginRegistrant.registerWith(this)
+  }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
